@@ -14,7 +14,9 @@ from langchain.document_loaders import UnstructuredMarkdownLoader
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import MarkdownTextSplitter
 from langchain.vectorstores import Chroma
+from dotenv import load_dotenv
 
+load_dotenv()
 langchain.llm_cache = SQLiteCache(database_path="langchain.db")
 
 logger = logging.getLogger(__name__)
@@ -151,7 +153,7 @@ def get_parser():
     parser.add_argument(
         "--docs_dir",
         type=str,
-        required=True,
+        default="llm-apps-course/docs_sample",
         help="The directory containing the wandb documentation",
     )
     parser.add_argument(
@@ -191,17 +193,17 @@ def get_parser():
 def main():
     parser = get_parser()
     args = parser.parse_args()
-    run = wandb.init(project=args.wandb_project, config=args)
+    #run = wandb.init(project=args.wandb_project, config=args)
     documents, vector_store = ingest_data(
         docs_dir=args.docs_dir,
         chunk_size=args.chunk_size,
         chunk_overlap=args.chunk_overlap,
         vector_store_path=args.vector_store,
     )
-    log_dataset(documents, run)
-    log_index(args.vector_store, run)
-    log_prompt(json.load(args.prompt_file.open("r")), run)
-    run.finish()
+    # log_dataset(documents, run)
+    # log_index(args.vector_store, run)
+    # log_prompt(json.load(args.prompt_file.open("r")), run)
+    # run.finish()
 
 
 if __name__ == "__main__":

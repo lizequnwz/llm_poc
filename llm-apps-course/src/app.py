@@ -20,19 +20,13 @@ class Chat:
             config (SimpleNamespace): The configuration.
         """
         self.config = config
-        self.wandb_run = wandb.init(
-            project=self.config.project,
-            entity=self.config.entity,
-            job_type=self.config.job_type,
-            config=self.config,
-        )
         self.vector_store = None
         self.chain = None
 
     def __call__(
         self,
         question: str,
-        history: list[tuple[str, str]] | None = None,
+        history: list = None,
         openai_api_key: str = None,
     ):
         """Answer a question about wandb documentation using the LangChain QA chain and vector store retriever.
@@ -54,11 +48,11 @@ class Chat:
 
         if self.vector_store is None:
             self.vector_store = load_vector_store(
-                wandb_run=self.wandb_run, openai_api_key=openai_key
+                self.config, openai_key
             )
         if self.chain is None:
             self.chain = load_chain(
-                self.wandb_run, self.vector_store, openai_api_key=openai_key
+                self.config, self.vector_store, openai_key
             )
 
         history = history or []
