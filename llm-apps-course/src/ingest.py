@@ -17,7 +17,7 @@ from langchain.vectorstores import Chroma
 from dotenv import load_dotenv
 
 load_dotenv()
-langchain.llm_cache = SQLiteCache(database_path="langchain.db")
+langchain.llm_cache = SQLiteCache(database_path="llm-apps-course/langchain.db")
 
 logger = logging.getLogger(__name__)
 
@@ -61,7 +61,7 @@ def chunk_documents(
 
 def create_vector_store(
     documents,
-    vector_store_path: str = "./vector_store",
+    vector_store_path: str = "llm-apps-course/vector_store",
 ) -> Chroma:
     """Create a ChromaDB vector store from a list of documents
 

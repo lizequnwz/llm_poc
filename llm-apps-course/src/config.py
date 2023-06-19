@@ -1,8 +1,13 @@
 """Configuration for the LLM Apps Course"""
 from types import SimpleNamespace
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 default_config = SimpleNamespace(
-    vector_store_dir="vector_store",
+    openai_api_key=os.getenv("OPENAI_API_KEY"),
+    vector_store_dir="llm-apps-course/vector_store",
     chat_prompt_dir="llm-apps-course/src",
     chat_temperature=0.3,
     max_fallback_retries=1,

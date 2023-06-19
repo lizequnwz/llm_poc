@@ -18,7 +18,7 @@ load_dotenv()
 logger = logging.getLogger(__name__)
 
 
-def load_vector_store(config: SimpleNamespace, openai_api_key: str) -> Chroma:
+def load_vector_store(config: SimpleNamespace) -> Chroma:
     """Load a vector store from a Weights & Biases artifact
     Args:
         run (wandb.run): An active Weights & Biases run
@@ -26,8 +26,7 @@ def load_vector_store(config: SimpleNamespace, openai_api_key: str) -> Chroma:
     Returns:
         Chroma: A chroma vector store object
     """
-    
-    embedding_fn = OpenAIEmbeddings(openai_api_key=openai_api_key)
+    embedding_fn = OpenAIEmbeddings()
     # load vector store
     vector_store = Chroma(
         embedding_function=embedding_fn, persist_directory=config.vector_store_dir
@@ -36,7 +35,7 @@ def load_vector_store(config: SimpleNamespace, openai_api_key: str) -> Chroma:
     return vector_store
 
 
-def load_chain(config, vector_store: Chroma, openai_api_key: str):
+def load_chain(config, vector_store: Chroma):
     """Load a ConversationalQA chain from a config and a vector store
     Args:
         wandb_run (wandb.run): An active Weights & Biases run
@@ -47,7 +46,6 @@ def load_chain(config, vector_store: Chroma, openai_api_key: str):
     """
     retriever = vector_store.as_retriever()
     llm = ChatOpenAI(
-        openai_api_key=openai_api_key,
         model_name=config.model_name,
         temperature=config.chat_temperature,
         max_retries=config.max_fallback_retries,

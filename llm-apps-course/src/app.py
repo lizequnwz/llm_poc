@@ -6,7 +6,9 @@ import gradio as gr
 import wandb
 from chain import get_answer, load_chain, load_vector_store
 from config import default_config
+from dotenv import load_dotenv
 
+load_dotenv()
 
 class Chat:
     """A chatbot interface that persists the vectorstore and chain between calls."""
@@ -47,13 +49,9 @@ class Chat:
             )
 
         if self.vector_store is None:
-            self.vector_store = load_vector_store(
-                self.config, openai_key
-            )
+            self.vector_store = load_vector_store(self.config)
         if self.chain is None:
-            self.chain = load_chain(
-                self.config, self.vector_store, openai_key
-            )
+            self.chain = load_chain(self.config, self.vector_store)
 
         history = history or []
         question = question.lower()
