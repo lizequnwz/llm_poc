@@ -25,8 +25,6 @@ IN WITNESS WHEREOF, the parties have executed this Agreement as of the date firs
 [Signature block for Service Provider]
 
 """
-openai.api_key="APIKEY"
-
 st.set_page_config(
     page_title="Home",
     page_icon="📝",
@@ -47,7 +45,7 @@ with col1:
     'Select the key clause you want to extract',
     ("What is the termination clause?", "what is the confidentiality clause?", "what is the compensation and the due date?", "what is the indemnification clause?"))
     
-openai.api_key = "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"
+openai.api_key = "APIKEY"
 
 with col2:
     if request:
