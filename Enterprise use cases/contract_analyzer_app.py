@@ -1,29 +1,11 @@
 import streamlit as st
 import openai
 import pandas as pd
-import sys
-import re
-import requests
-import os
+import sys, os, re, requests
 import numpy as np
-import toml
 from streamlit_chat import message
-import streamlit as st
-import openai
 from openai.embeddings_utils import get_embedding, cosine_similarity
 from openai.embeddings_utils import distances_from_embeddings
-import os
-
-
-with open('secrets.toml', 'r') as f:
-    config = toml.load(f)
-
-
-openai.api_type = "azure"
-openai.api_key = config['OPENAI_API_KEY']
-openai.api_base = config['OPENAI_API_BASE']
-openai.api_version = "2022-12-01"
-
 
 contract = """
 
@@ -43,14 +25,14 @@ IN WITNESS WHEREOF, the parties have executed this Agreement as of the date firs
 [Signature block for Service Provider]
 
 """
+openai.api_key="APIKEY"
+
 st.set_page_config(
     page_title="Home",
     page_icon="📝",
 )
 
 st.header("Welcome to Contract Analyzer portal 📝")
-
-
 
 st.subheader('Contract #371')
         
@@ -65,11 +47,12 @@ with col1:
     'Select the key clause you want to extract',
     ("What is the termination clause?", "what is the confidentiality clause?", "what is the compensation and the due date?", "what is the indemnification clause?"))
     
+openai.api_key = "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"
 
 with col2:
     if request:
         completions = openai.Completion.create(
-            engine="test1",
+            engine="text-davinci-003",
             prompt= contract + request,
             max_tokens=2000,
             n=1,
@@ -90,7 +73,7 @@ with col3:
 with col4:
     if user_input:
         completions = openai.Completion.create(
-            engine="test1",
+            engine="text-davinci-003",
             prompt= contract + user_input,
             max_tokens=2000,
             n=1,
@@ -113,7 +96,7 @@ with col5:
 with col6:
     if request:
         completions = openai.Completion.create(
-            engine="test1",
+            engine="text-davinci-003",
             prompt= contract + request,
             max_tokens=2000,
             n=1,
@@ -139,7 +122,7 @@ with col7:
 with col8:
     if st.button('Generate template'):
         completions = openai.Completion.create(
-            engine="test1",
+            engine="text-davinci-003",
             prompt= f"Generate a Service Delivery Agreement with the following elements: Service Provider: {service_provider}, Client: {client}, Description of Services: {services_description}, Start Date: {start_date}, Duration: {duration}",
             max_tokens=2000,
             n=1,

@@ -133,3 +133,4 @@ dmypy.json
 *.pkl
 *.parquet
 *.db
+*.toml
